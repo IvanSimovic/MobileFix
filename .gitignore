@@ -1,0 +1,8 @@
+buildLogic/.gradle
+feature/album/.gradle
+feature/favourite/.gradle
+feature/settings/.gradle
+feature/base/.gradle
+library/.gradle
+.idea
+.gradle
