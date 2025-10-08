@@ -167,84 +167,90 @@ class AlbumRepositoryImplTest {
     }
 
     @Test
-    fun `addAlbumToFavorites when db success returns success`() = runBlocking {
-        // given
-        val albumMbId = "mbId1"
-        coEvery { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } returns Unit
+    fun `addAlbumToFavorites when db success returns success`() =
+        runBlocking {
+            // given
+            val albumMbId = "mbId1"
+            coEvery { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } returns Unit
 
-        // when
-        val actual = sut.addAlbumToFavorites(albumMbId)
+            // when
+            val actual = sut.addAlbumToFavorites(albumMbId)
 
-        // then
-        coVerify(exactly = 1) { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) }
-        actual shouldBeEqualTo Result.Success(Unit)
-    }
-
-    @Test
-    fun `addAlbumToFavorites when db exception returns failure`() = runBlocking {
-        // given
-        val albumMbId = "mbId1"
-        val exception = Exception("DB error")
-        coEvery { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } throws exception
-
-        // when
-        val actual = sut.addAlbumToFavorites(albumMbId)
-
-        // then
-        actual shouldBeEqualTo Result.Failure(exception)
-    }
+            // then
+            coVerify(exactly = 1) { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) }
+            actual shouldBeEqualTo Result.Success(Unit)
+        }
 
     @Test
-    fun `removeAlbumFromFavorites when db success returns success`() = runBlocking {
-        // given
-        val albumMbId = "mbId1"
-        coEvery { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } returns Unit
+    fun `addAlbumToFavorites when db exception returns failure`() =
+        runBlocking {
+            // given
+            val albumMbId = "mbId1"
+            val exception = Exception("DB error")
+            coEvery { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } throws exception
 
-        // when
-        val actual = sut.removeAlbumFromFavorites(albumMbId)
+            // when
+            val actual = sut.addAlbumToFavorites(albumMbId)
 
-        // then
-        coVerify(exactly = 1) { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) }
-        actual shouldBeEqualTo Result.Success(Unit)
-    }
-
-    @Test
-    fun `removeAlbumFromFavorites when db exception returns failure`() = runBlocking {
-        // given
-        val albumMbId = "mbId1"
-        val exception = Exception("DB error")
-        coEvery { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } throws exception
-
-        // when
-        val actual = sut.removeAlbumFromFavorites(albumMbId)
-
-        // then
-        actual shouldBeEqualTo Result.Failure(exception)
-    }
+            // then
+            actual shouldBeEqualTo Result.Failure(exception)
+        }
 
     @Test
-    fun `isAlbumFavorite when album is favorited returns true`() = runBlocking {
-        // given
-        val albumMbId = "mbId1"
-        coEvery { mockAlbumDao.isAlbumFavorite(albumMbId) } returns true
+    fun `removeAlbumFromFavorites when db success returns success`() =
+        runBlocking {
+            // given
+            val albumMbId = "mbId1"
+            coEvery { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } returns Unit
 
-        // when
-        val actual = sut.isAlbumFavorite(albumMbId)
+            // when
+            val actual = sut.removeAlbumFromFavorites(albumMbId)
 
-        // then
-        actual shouldBeEqualTo true
-    }
+            // then
+            coVerify(exactly = 1) { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) }
+            actual shouldBeEqualTo Result.Success(Unit)
+        }
 
     @Test
-    fun `isAlbumFavorite when album is not favorited returns false`() = runBlocking {
-        // given
-        val albumMbId = "mbId1"
-        coEvery { mockAlbumDao.isAlbumFavorite(albumMbId) } returns false
+    fun `removeAlbumFromFavorites when db exception returns failure`() =
+        runBlocking {
+            // given
+            val albumMbId = "mbId1"
+            val exception = Exception("DB error")
+            coEvery { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } throws exception
 
-        // when
-        val actual = sut.isAlbumFavorite(albumMbId)
+            // when
+            val actual = sut.removeAlbumFromFavorites(albumMbId)
 
-        // then
-        actual shouldBeEqualTo false
-    }
+            // then
+            actual shouldBeEqualTo Result.Failure(exception)
+        }
+
+    @Test
+    fun `isAlbumFavorite when album is favorited returns true`() =
+        runBlocking {
+            // given
+            val albumMbId = "mbId1"
+            coEvery { mockAlbumDao.isAlbumFavorite(albumMbId) } returns true
+
+            // when
+            val actual = sut.isAlbumFavorite(albumMbId)
+
+            // then
+            actual shouldBeEqualTo true
+        }
+
+    @Test
+    fun `isAlbumFavorite when album is not favorited returns false`() =
+        runBlocking {
+            // given
+            val albumMbId = "mbId1"
+            coEvery { mockAlbumDao.isAlbumFavorite(albumMbId) } returns false
+
+            // when
+            val actual = sut.isAlbumFavorite(albumMbId)
+
+            // then
+            actual shouldBeEqualTo false
+        }
 }

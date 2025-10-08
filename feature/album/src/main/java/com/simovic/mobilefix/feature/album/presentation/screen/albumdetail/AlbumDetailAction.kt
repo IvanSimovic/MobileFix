@@ -32,7 +32,7 @@ internal sealed interface AlbumDetailAction : BaseAction<AlbumDetailUiState> {
     class ToggleFavoriteStatus(
         private val isFavorite: Boolean,
     ) : AlbumDetailAction {
-        override fun reduce(state: AlbumDetailUiState):
-            AlbumDetailUiState = (state as? AlbumDetailUiState.Content)?.copy(isFavorite = isFavorite) ?: state
+        override fun reduce(state: AlbumDetailUiState): AlbumDetailUiState =
+            (state as? AlbumDetailUiState.Content)?.copy(isFavorite = isFavorite) ?: state
     }
 }

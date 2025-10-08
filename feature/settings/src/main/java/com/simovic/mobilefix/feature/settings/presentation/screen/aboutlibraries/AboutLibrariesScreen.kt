@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.simovic.mobilefix.feature.settings.R
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
+import com.simovic.mobilefix.feature.settings.R
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

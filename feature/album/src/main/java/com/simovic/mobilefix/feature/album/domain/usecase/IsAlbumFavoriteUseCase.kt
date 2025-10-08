@@ -5,7 +5,5 @@ import com.simovic.mobilefix.feature.album.domain.repository.AlbumRepository
 internal class IsAlbumFavoriteUseCase(
     private val albumRepository: AlbumRepository,
 ) {
-    suspend operator fun invoke(albumMbId: String): Boolean {
-        return albumRepository.isAlbumFavorite(albumMbId)
-    }
+    suspend operator fun invoke(albumMbId: String): Boolean = albumRepository.isAlbumFavorite(albumMbId)
 }

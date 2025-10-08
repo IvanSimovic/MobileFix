@@ -15,7 +15,6 @@ internal class AlbumRepositoryImpl(
     private val albumDao: AlbumDao,
     private val albumMapper: AlbumMapper,
 ) : AlbumRepository {
-
     override suspend fun searchAlbum(phrase: String?): Result<List<Album>> =
         when (val apiResult = albumRetrofitService.searchAlbumAsync(phrase)) {
             is ApiResult.Success -> {
@@ -76,22 +75,22 @@ internal class AlbumRepositoryImpl(
                 Result.Success(album)
             }
         }
-    
-    override suspend fun addAlbumToFavorites(albumMbId: String): Result<Unit> = try {
-        albumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId))
-        Result.Success(Unit)
-    } catch (e: Exception) {
-        Result.Failure(e)
-    }
 
-    override suspend fun removeAlbumFromFavorites(albumMbId: String): Result<Unit> = try {
-        albumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId))
-        Result.Success(Unit)
-    } catch (e: Exception) {
-        Result.Failure(e)
-    }
+    override suspend fun addAlbumToFavorites(albumMbId: String): Result<Unit> =
+        try {
+            albumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId))
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
 
-    override suspend fun isAlbumFavorite(albumMbId: String): Boolean {
-        return albumDao.isAlbumFavorite(albumMbId)
-    }
+    override suspend fun removeAlbumFromFavorites(albumMbId: String): Result<Unit> =
+        try {
+            albumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId))
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+
+    override suspend fun isAlbumFavorite(albumMbId: String): Boolean = albumDao.isAlbumFavorite(albumMbId)
 }

@@ -12,10 +12,11 @@ internal abstract class AlbumDatabase : RoomDatabase() {
     abstract fun albums(): AlbumDao
 
     companion object {
-        val MIGRATION_1_2 = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE IF NOT EXISTS `favorite_albums` (`mbId` TEXT NOT NULL, PRIMARY KEY(`mbId`))")
+        val MIGRATION_1_2 =
+            object : Migration(1, 2) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("CREATE TABLE IF NOT EXISTS `favorite_albums` (`mbId` TEXT NOT NULL, PRIMARY KEY(`mbId`))")
+                }
             }
-        }
     }
 }

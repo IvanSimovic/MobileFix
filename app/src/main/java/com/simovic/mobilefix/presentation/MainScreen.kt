@@ -50,15 +50,16 @@ fun MainShowcaseScreen(modifier: Modifier = Modifier) {
                 }
                 composable(
                     route = "${AlbumDestinations.ALBUM_DETAILS}/{artistName}/{albumName}/{albumMbId}",
-                    arguments = listOf(
-                        navArgument("artistName") { type = NavType.StringType },
-                        navArgument("albumName") { type = NavType.StringType },
-                        navArgument("albumMbId") {
-                            type = NavType.StringType
-                            nullable = true
-                            defaultValue = null
-                        }
-                    ),
+                    arguments =
+                        listOf(
+                            navArgument("artistName") { type = NavType.StringType },
+                            navArgument("albumName") { type = NavType.StringType },
+                            navArgument("albumMbId") {
+                                type = NavType.StringType
+                                nullable = true
+                                defaultValue = null
+                            },
+                        ),
                 ) { backStackEntry ->
                     val args = backStackEntry.arguments
 
@@ -91,7 +92,6 @@ fun MainShowcaseScreen(modifier: Modifier = Modifier) {
                         },
                     )
                 }
-
             }
         NavHost(
             navController = navController,
@@ -129,11 +129,12 @@ object SettingsDestinations {
     const val ABOUT_LIBRARY = "${ROOT}_about_library"
 }
 
-class MainActions(navController: NavHostController) {
-
+class MainActions(
+    navController: NavHostController,
+) {
     val toAlbumDetails: (String, String, String?) -> Unit = { artistName, albumName, albumMbId ->
         navController.navigate(
-            "${AlbumDestinations.ALBUM_DETAILS}/$artistName/$albumName/$albumMbId"
+            "${AlbumDestinations.ALBUM_DETAILS}/$artistName/$albumName/$albumMbId",
         )
     }
 

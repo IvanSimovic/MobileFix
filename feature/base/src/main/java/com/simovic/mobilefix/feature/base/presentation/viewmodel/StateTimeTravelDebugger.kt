@@ -1,8 +1,8 @@
 package com.simovic.mobilefix.feature.base.presentation.viewmodel
 
 import com.simovic.mobilefix.feature.base.util.TimberLogTags
-import kotlin.reflect.full.memberProperties
 import timber.log.Timber
+import kotlin.reflect.full.memberProperties
 
 /**
  * Logs actions and view state transitions to facilitate debugging.

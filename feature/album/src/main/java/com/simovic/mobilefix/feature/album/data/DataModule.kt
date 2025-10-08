@@ -28,8 +28,7 @@ internal val dataModule =
                     get(),
                     AlbumDatabase::class.java,
                     "Albums.db",
-                )
-                .addMigrations(AlbumDatabase.MIGRATION_1_2)
+                ).addMigrations(AlbumDatabase.MIGRATION_1_2)
                 .build()
         }
 

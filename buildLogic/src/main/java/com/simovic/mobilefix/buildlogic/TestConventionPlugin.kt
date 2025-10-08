@@ -20,7 +20,7 @@ class TestConventionPlugin : Plugin<Project> {
                 systemProperties =
                     mapOf(
                         "junit.jupiter.execution.parallel.enabled" to "true",
-                        "junit.jupiter.execution.parallel.mode.default " to "concurrent",
+                        "junit.jupiter.execution.parallel.mode.default" to "concurrent",
                     )
             }
 

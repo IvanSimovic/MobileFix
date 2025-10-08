@@ -14,7 +14,6 @@ internal class AlbumDetailViewModel(
     private val toggleAlbumFavoriteStatusUseCase: ToggleAlbumFavoriteStatusUseCase,
     private val isAlbumFavoriteUseCase: IsAlbumFavoriteUseCase,
 ) : BaseViewModel<AlbumDetailUiState, AlbumDetailAction>(AlbumDetailUiState.Loading) {
-
     fun onInit(
         albumName: String,
         artistName: String,

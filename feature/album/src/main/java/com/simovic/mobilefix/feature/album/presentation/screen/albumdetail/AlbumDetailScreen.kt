@@ -53,6 +53,7 @@ fun AlbumDetailScreen(
     albumName: String,
     artistName: String,
     albumMbId: String?,
+    modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
 ) {
     val viewModel: AlbumDetailViewModel = koinViewModel()
@@ -63,7 +64,7 @@ fun AlbumDetailScreen(
 
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
 
-    Column {
+    Column(modifier = modifier) {
         TopAppBar(
             title = { Text(text = albumName) },
             windowInsets = WindowInsets(0, 0, 0, 0),
@@ -85,7 +86,7 @@ fun AlbumDetailScreen(
                         Icon(icon, contentDescription = contentDescription)
                     }
                 }
-            }
+            },
         )
         when (val currentUiState = uiState) {
             AlbumDetailUiState.Error -> {
@@ -98,7 +99,7 @@ fun AlbumDetailScreen(
 
             is AlbumDetailUiState.Content -> {
                 AlbumDetailContent(
-                    content = currentUiState
+                    content = currentUiState,
                 )
             }
         }

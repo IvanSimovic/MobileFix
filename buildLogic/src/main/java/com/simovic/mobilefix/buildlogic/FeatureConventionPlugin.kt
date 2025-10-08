@@ -23,6 +23,7 @@ class FeatureConventionPlugin : Plugin<Project> {
                 apply("com.android.library")
                 apply("com.simovic.mobilefix.convention.kotlin")
                 apply("com.simovic.mobilefix.convention.test")
+                apply("com.simovic.mobilefix.convention.spotless")
                 apply("com.google.devtools.ksp")
                 apply("org.jetbrains.kotlin.plugin.compose")
             }

@@ -79,100 +79,104 @@ class AlbumDetailViewModelTest {
         }
 
     @Test
-    fun `addToFavorites when mbId is present and toggle is successful returns updated content`() = runTest {
-        // given
-        val album = DataFixtures.getAlbumDomainModel()
+    fun `addToFavorites when mbId is present and toggle is successful returns updated content`() =
+        runTest {
+            // given
+            val album = DataFixtures.getAlbumDomainModel()
 
-        coEvery { mockGetAlbumUseCase.invoke(any(), any(), any()) } returns Result.Success(album)
-        coEvery { mockIsAlbumFavoriteUseCase.invoke(album.mbId!!) } returns false andThen true
-        coEvery { mockToggleAlbumFavoriteStatusUseCase.invoke(album.mbId!!, false) } returns Result.Success(Unit)
+            coEvery { mockGetAlbumUseCase.invoke(any(), any(), any()) } returns Result.Success(album)
+            coEvery { mockIsAlbumFavoriteUseCase.invoke(album.mbId!!) } returns false andThen true
+            coEvery { mockToggleAlbumFavoriteStatusUseCase.invoke(album.mbId!!, false) } returns Result.Success(Unit)
 
-        sut.onInit(album.name, album.artist, album.mbId)
-        advanceUntilIdle()
+            sut.onInit(album.name, album.artist, album.mbId)
+            advanceUntilIdle()
 
-        // when
-        sut.addToFavorites()
-        advanceUntilIdle()
+            // when
+            sut.addToFavorites()
+            advanceUntilIdle()
 
-        // then
-        coVerify(exactly = 1) { mockToggleAlbumFavoriteStatusUseCase.invoke(album.mbId!!, false) }
-        sut.uiStateFlow.value shouldBeEqualTo
-            AlbumDetailUiState.Content(
-                albumName = album.name,
-                artistName = album.artist,
-                coverImageUrl = "",
-                tracks = null,
-                tags = null,
-                mbId = album.mbId,
-                isFavorite = true,
-            )
-    }
-
-    @Test
-    fun `addToFavorites when mbId is null does not call use case`() = runTest {
-        // given
-        val album = DataFixtures.getAlbumDomainModel(mbId = null)
-
-        coEvery { mockGetAlbumUseCase.invoke(any(), any(), any()) } returns Result.Success(album)
-        coEvery { mockToggleAlbumFavoriteStatusUseCase.invoke(any(), any()) } returns Result.Success(Unit)
-
-        sut.onInit(album.name, album.artist, album.mbId)
-        advanceUntilIdle()
-
-        // when
-        sut.addToFavorites()
-        advanceUntilIdle()
-
-        // then
-        coVerify(exactly = 0) { mockToggleAlbumFavoriteStatusUseCase.invoke(any(), any()) }
-    }
+            // then
+            coVerify(exactly = 1) { mockToggleAlbumFavoriteStatusUseCase.invoke(album.mbId!!, false) }
+            sut.uiStateFlow.value shouldBeEqualTo
+                AlbumDetailUiState.Content(
+                    albumName = album.name,
+                    artistName = album.artist,
+                    coverImageUrl = "",
+                    tracks = null,
+                    tags = null,
+                    mbId = album.mbId,
+                    isFavorite = true,
+                )
+        }
 
     @Test
-    fun `addToFavorites when toggle fails returns error`() = runTest {
-        // given
-        val album = DataFixtures.getAlbumDomainModel()
-        val exception = Exception("Toggle failed")
+    fun `addToFavorites when mbId is null does not call use case`() =
+        runTest {
+            // given
+            val album = DataFixtures.getAlbumDomainModel(mbId = null)
 
-        coEvery { mockGetAlbumUseCase.invoke(any(), any(), any()) } returns Result.Success(album)
-        coEvery { mockIsAlbumFavoriteUseCase.invoke(album.mbId!!) } returns false
-        coEvery { mockToggleAlbumFavoriteStatusUseCase.invoke(album.mbId!!, false) } returns Result.Failure(exception)
+            coEvery { mockGetAlbumUseCase.invoke(any(), any(), any()) } returns Result.Success(album)
+            coEvery { mockToggleAlbumFavoriteStatusUseCase.invoke(any(), any()) } returns Result.Success(Unit)
 
-        sut.onInit(album.name, album.artist, album.mbId)
-        advanceUntilIdle()
+            sut.onInit(album.name, album.artist, album.mbId)
+            advanceUntilIdle()
 
-        // when
-        sut.addToFavorites()
-        advanceUntilIdle()
+            // when
+            sut.addToFavorites()
+            advanceUntilIdle()
 
-        // then
-        coVerify(exactly = 1) { mockToggleAlbumFavoriteStatusUseCase.invoke(album.mbId!!, false) }
-        sut.uiStateFlow.value shouldBeEqualTo AlbumDetailUiState.Error
-    }
+            // then
+            coVerify(exactly = 0) { mockToggleAlbumFavoriteStatusUseCase.invoke(any(), any()) }
+        }
 
     @Test
-    fun `onInit uses mbId override when provided returns updated content`() = runTest {
-        // given
-        val apiAlbumMbId = "api-mbid-xyz"
-        val overrideMbId = "override-mbid-123"
-        val album: Album = DataFixtures.getAlbumDomainModel(mbId = apiAlbumMbId)
+    fun `addToFavorites when toggle fails returns error`() =
+        runTest {
+            // given
+            val album = DataFixtures.getAlbumDomainModel()
+            val exception = Exception("Toggle failed")
 
-        coEvery { mockIsAlbumFavoriteUseCase.invoke(overrideMbId) } returns true
-        coEvery { mockGetAlbumUseCase.invoke(album.artist, album.name, overrideMbId) } returns Result.Success(album)
+            coEvery { mockGetAlbumUseCase.invoke(any(), any(), any()) } returns Result.Success(album)
+            coEvery { mockIsAlbumFavoriteUseCase.invoke(album.mbId!!) } returns false
+            coEvery { mockToggleAlbumFavoriteStatusUseCase.invoke(album.mbId!!, false) } returns Result.Failure(exception)
 
-        // when
-        sut.onInit(album.name, album.artist, overrideMbId)
-        advanceUntilIdle()
+            sut.onInit(album.name, album.artist, album.mbId)
+            advanceUntilIdle()
 
-        // then
-        sut.uiStateFlow.value shouldBeEqualTo
-            AlbumDetailUiState.Content(
-                albumName = album.name,
-                artistName = album.artist,
-                coverImageUrl = "",
-                tracks = null,
-                tags = null,
-                mbId = overrideMbId,
-                isFavorite = true,
-            )
-    }
+            // when
+            sut.addToFavorites()
+            advanceUntilIdle()
+
+            // then
+            coVerify(exactly = 1) { mockToggleAlbumFavoriteStatusUseCase.invoke(album.mbId!!, false) }
+            sut.uiStateFlow.value shouldBeEqualTo AlbumDetailUiState.Error
+        }
+
+    @Test
+    fun `onInit uses mbId override when provided returns updated content`() =
+        runTest {
+            // given
+            val apiAlbumMbId = "api-mbid-xyz"
+            val overrideMbId = "override-mbid-123"
+            val album: Album = DataFixtures.getAlbumDomainModel(mbId = apiAlbumMbId)
+
+            coEvery { mockIsAlbumFavoriteUseCase.invoke(overrideMbId) } returns true
+            coEvery { mockGetAlbumUseCase.invoke(album.artist, album.name, overrideMbId) } returns Result.Success(album)
+
+            // when
+            sut.onInit(album.name, album.artist, overrideMbId)
+            advanceUntilIdle()
+
+            // then
+            sut.uiStateFlow.value shouldBeEqualTo
+                AlbumDetailUiState.Content(
+                    albumName = album.name,
+                    artistName = album.artist,
+                    coverImageUrl = "",
+                    tracks = null,
+                    tags = null,
+                    mbId = overrideMbId,
+                    isFavorite = true,
+                )
+        }
 }
