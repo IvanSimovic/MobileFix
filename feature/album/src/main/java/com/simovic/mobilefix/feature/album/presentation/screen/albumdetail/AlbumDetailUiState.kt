@@ -14,6 +14,8 @@ internal sealed interface AlbumDetailUiState : BaseState {
         val coverImageUrl: String = "",
         val tracks: List<Track>? = emptyList(),
         val tags: List<Tag>? = emptyList(),
+        val mbId: String? = null,
+        val isFavorite: Boolean = false,
     ) : AlbumDetailUiState
 
     @Immutable

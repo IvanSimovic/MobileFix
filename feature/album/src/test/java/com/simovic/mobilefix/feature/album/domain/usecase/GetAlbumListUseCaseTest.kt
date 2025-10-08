@@ -16,7 +16,7 @@ class GetAlbumListUseCaseTest {
     private val sut = GetAlbumListUseCase(mockAlbumRepository)
 
     @Test
-    fun `return list of albums`() {
+    fun `GetAlbumListUseCase when repository is successful returns list of albums`() {
         // given
         val albums = listOf(DomainFixtures.getAlbum(), DomainFixtures.getAlbum())
         coEvery { mockAlbumRepository.searchAlbum(any()) } returns Result.Success(albums)
@@ -29,7 +29,7 @@ class GetAlbumListUseCaseTest {
     }
 
     @Test
-    fun `WHEN onInit is called with no value then the default query search term is null`() =
+    fun `GetAlbumListUseCase when onInit is called with no value uses null as default query search term`() =
         runBlocking {
             // given
             val albums = listOf(DomainFixtures.getAlbum(), DomainFixtures.getAlbum())
@@ -41,7 +41,7 @@ class GetAlbumListUseCaseTest {
         }
 
     @Test
-    fun `filter albums with default image`() {
+    fun `GetAlbumListUseCase filters albums with default image`() {
         // given
         val albumWithImage = DomainFixtures.getAlbum()
         val albumWithoutImage = DomainFixtures.getAlbum(images = listOf())
@@ -56,7 +56,7 @@ class GetAlbumListUseCaseTest {
     }
 
     @Test
-    fun `return error when repository throws an exception`() {
+    fun `GetAlbumListUseCase when repository throws an exception returns error`() {
         // given
         val resultFailure = mockk<Result.Failure>()
         coEvery { mockAlbumRepository.searchAlbum(any()) } returns resultFailure

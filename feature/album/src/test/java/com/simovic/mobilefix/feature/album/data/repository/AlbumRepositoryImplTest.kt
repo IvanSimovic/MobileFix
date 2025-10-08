@@ -5,6 +5,7 @@ import com.simovic.mobilefix.feature.album.data.datasource.api.response.GetAlbum
 import com.simovic.mobilefix.feature.album.data.datasource.api.response.SearchAlbumResponse
 import com.simovic.mobilefix.feature.album.data.datasource.api.service.AlbumRetrofitService
 import com.simovic.mobilefix.feature.album.data.datasource.database.AlbumDao
+import com.simovic.mobilefix.feature.album.data.datasource.database.model.FavoriteAlbumRoomModel
 import com.simovic.mobilefix.feature.album.data.mapper.AlbumMapper
 import com.simovic.mobilefix.feature.album.domain.model.Album
 import com.simovic.mobilefix.feature.base.data.retrofit.ApiResult
@@ -28,7 +29,7 @@ class AlbumRepositoryImplTest {
     private val sut = AlbumRepositoryImpl(mockService, mockAlbumDao, mockAlbumMapper)
 
     @Test
-    fun `searchAlbum handles api success and returns albums`() {
+    fun `searchAlbum when api success returns albums`() {
         // given
         val phrase = "phrase"
         val mockAlbum = mockk<Album>()
@@ -49,7 +50,7 @@ class AlbumRepositoryImplTest {
     }
 
     @Test
-    fun `searchAlbum handles api success and saves album in database`() {
+    fun `searchAlbum when api success saves album in database`() {
         // given
         val phrase = "phrase"
         coEvery { mockService.searchAlbumAsync(phrase) } returns
@@ -68,7 +69,7 @@ class AlbumRepositoryImplTest {
     }
 
     @Test
-    fun `searchAlbum handles api exception and fallbacks to database`() {
+    fun `searchAlbum when api exception fallbacks to database`() {
         // given
         val phrase = "phrase"
         val albumRoomModels = DataFixtures.getAlbumsRoomModels()
@@ -88,7 +89,7 @@ class AlbumRepositoryImplTest {
     }
 
     @Test
-    fun `searchAlbum handles api error `() {
+    fun `searchAlbum when api error returns failure`() {
         // given
         val phrase = "phrase"
 
@@ -102,7 +103,7 @@ class AlbumRepositoryImplTest {
     }
 
     @Test
-    fun `getAlbumInfo handles api success and returns Album`() {
+    fun `getAlbumInfo when api success returns album`() {
         // given
         val artistName = "Michael Jackson"
         val albumName = "Thriller"
@@ -127,7 +128,7 @@ class AlbumRepositoryImplTest {
     }
 
     @Test
-    fun `getAlbumInfo handles api exception and fallbacks to database`() {
+    fun `getAlbumInfo when api exception fallbacks to database`() {
         // given
         val artistName = "Michael Jackson"
         val albumName = "Thriller"
@@ -148,7 +149,7 @@ class AlbumRepositoryImplTest {
     }
 
     @Test
-    fun `getAlbumInfo handles api error`() {
+    fun `getAlbumInfo when api error returns failure`() {
         // given
         val artistName = "Michael Jackson"
         val albumName = "Thriller"
@@ -163,5 +164,87 @@ class AlbumRepositoryImplTest {
 
         // then
         actual shouldBeEqualTo Result.Failure()
+    }
+
+    @Test
+    fun `addAlbumToFavorites when db success returns success`() = runBlocking {
+        // given
+        val albumMbId = "mbId1"
+        coEvery { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } returns Unit
+
+        // when
+        val actual = sut.addAlbumToFavorites(albumMbId)
+
+        // then
+        coVerify(exactly = 1) { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) }
+        actual shouldBeEqualTo Result.Success(Unit)
+    }
+
+    @Test
+    fun `addAlbumToFavorites when db exception returns failure`() = runBlocking {
+        // given
+        val albumMbId = "mbId1"
+        val exception = Exception("DB error")
+        coEvery { mockAlbumDao.insertFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } throws exception
+
+        // when
+        val actual = sut.addAlbumToFavorites(albumMbId)
+
+        // then
+        actual shouldBeEqualTo Result.Failure(exception)
+    }
+
+    @Test
+    fun `removeAlbumFromFavorites when db success returns success`() = runBlocking {
+        // given
+        val albumMbId = "mbId1"
+        coEvery { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } returns Unit
+
+        // when
+        val actual = sut.removeAlbumFromFavorites(albumMbId)
+
+        // then
+        coVerify(exactly = 1) { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) }
+        actual shouldBeEqualTo Result.Success(Unit)
+    }
+
+    @Test
+    fun `removeAlbumFromFavorites when db exception returns failure`() = runBlocking {
+        // given
+        val albumMbId = "mbId1"
+        val exception = Exception("DB error")
+        coEvery { mockAlbumDao.deleteFavoriteAlbum(FavoriteAlbumRoomModel(albumMbId)) } throws exception
+
+        // when
+        val actual = sut.removeAlbumFromFavorites(albumMbId)
+
+        // then
+        actual shouldBeEqualTo Result.Failure(exception)
+    }
+
+    @Test
+    fun `isAlbumFavorite when album is favorited returns true`() = runBlocking {
+        // given
+        val albumMbId = "mbId1"
+        coEvery { mockAlbumDao.isAlbumFavorite(albumMbId) } returns true
+
+        // when
+        val actual = sut.isAlbumFavorite(albumMbId)
+
+        // then
+        actual shouldBeEqualTo true
+    }
+
+    @Test
+    fun `isAlbumFavorite when album is not favorited returns false`() = runBlocking {
+        // given
+        val albumMbId = "mbId1"
+        coEvery { mockAlbumDao.isAlbumFavorite(albumMbId) } returns false
+
+        // when
+        val actual = sut.isAlbumFavorite(albumMbId)
+
+        // then
+        actual shouldBeEqualTo false
     }
 }

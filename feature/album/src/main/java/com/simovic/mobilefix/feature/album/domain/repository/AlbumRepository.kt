@@ -11,4 +11,10 @@ internal interface AlbumRepository {
     ): Result<Album>
 
     suspend fun searchAlbum(phrase: String?): Result<List<Album>>
+
+    suspend fun addAlbumToFavorites(albumMbId: String): Result<Unit>
+
+    suspend fun removeAlbumFromFavorites(albumMbId: String): Result<Unit>
+
+    suspend fun isAlbumFavorite(albumMbId: String): Boolean
 }

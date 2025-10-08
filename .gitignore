@@ -6,3 +6,4 @@ feature/base/.gradle
 library/.gradle
 .idea
 .gradle
+build

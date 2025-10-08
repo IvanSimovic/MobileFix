@@ -1,10 +1,12 @@
 package com.simovic.mobilefix.feature.album.data.datasource.database
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.simovic.mobilefix.feature.album.data.datasource.database.model.AlbumRoomModel
+import com.simovic.mobilefix.feature.album.data.datasource.database.model.FavoriteAlbumRoomModel
 
 @Dao
 internal interface AlbumDao {
@@ -20,4 +22,13 @@ internal interface AlbumDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlbums(albums: List<AlbumRoomModel>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavoriteAlbum(favoriteAlbum: FavoriteAlbumRoomModel)
+
+    @Delete
+    suspend fun deleteFavoriteAlbum(favoriteAlbum: FavoriteAlbumRoomModel)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM favorite_albums WHERE mbId = :mbId LIMIT 1)")
+    suspend fun isAlbumFavorite(mbId: String): Boolean
 }

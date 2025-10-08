@@ -10,6 +10,8 @@ internal sealed interface AlbumDetailAction : BaseAction<AlbumDetailUiState> {
 
     class AlbumLoadSuccess(
         private val album: Album,
+        private val isFavorite: Boolean,
+        private val mbIdOverride: String?,
     ) : AlbumDetailAction {
         override fun reduce(state: AlbumDetailUiState) =
             AlbumDetailUiState.Content(
@@ -18,10 +20,19 @@ internal sealed interface AlbumDetailAction : BaseAction<AlbumDetailUiState> {
                 coverImageUrl = album.getDefaultImageUrl() ?: "",
                 tracks = album.tracks,
                 tags = album.tags,
+                mbId = mbIdOverride ?: album.mbId,
+                isFavorite = isFavorite,
             )
     }
 
     object AlbumLoadFailure : AlbumDetailAction {
         override fun reduce(state: AlbumDetailUiState) = AlbumDetailUiState.Error
+    }
+
+    class ToggleFavoriteStatus(
+        private val isFavorite: Boolean,
+    ) : AlbumDetailAction {
+        override fun reduce(state: AlbumDetailUiState):
+            AlbumDetailUiState = (state as? AlbumDetailUiState.Content)?.copy(isFavorite = isFavorite) ?: state
     }
 }

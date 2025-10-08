@@ -15,12 +15,19 @@ import com.simovic.mobilefix.feature.album.data.datasource.database.model.ImageR
 import com.simovic.mobilefix.feature.album.data.datasource.database.model.ImageSizeRoomModel
 import com.simovic.mobilefix.feature.album.data.datasource.database.model.TagRoomModel
 import com.simovic.mobilefix.feature.album.data.datasource.database.model.TrackRoomModel
+import com.simovic.mobilefix.feature.album.domain.model.Album
 
 object DataFixtures {
     internal fun getAlbumsApiModel() =
         listOf(
             getAlbumApiModel("mbid1", "album1", "artist1"),
         )
+
+    internal fun getAlbumDomainModel(
+        name: String = "Thriller",
+        artist: String = "Michael Jackson",
+        mbId: String? = "123",
+    ) = Album(name, artist, mbId)
 
     internal fun getAlbumsRoomModels() =
         listOf(

@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.simovic.mobilefix.app.R
-import timber.log.Timber
 
 @Composable
 fun BottomNavigationBar(
@@ -28,13 +27,11 @@ fun BottomNavigationBar(
     val navigationItems = getBottomNavigationItems()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-    Timber.d("::DEVELOP current route is: $currentRoute")
+    val currentRoute = navBackStackEntry?.destination?.route]
 
     val selectedNavigationIndex =
         navigationItems
             .indexOfFirst {
-                Timber.d("::DEVELOP:: Comparing with ${it.route}")
                 currentRoute?.startsWith(it.route) == true
             }.takeIf { it >= 0 } ?: 0
 

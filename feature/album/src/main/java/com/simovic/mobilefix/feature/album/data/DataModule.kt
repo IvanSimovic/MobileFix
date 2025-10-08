@@ -28,7 +28,9 @@ internal val dataModule =
                     get(),
                     AlbumDatabase::class.java,
                     "Albums.db",
-                ).build()
+                )
+                .addMigrations(AlbumDatabase.MIGRATION_1_2)
+                .build()
         }
 
         single { get<AlbumDatabase>().albums() }

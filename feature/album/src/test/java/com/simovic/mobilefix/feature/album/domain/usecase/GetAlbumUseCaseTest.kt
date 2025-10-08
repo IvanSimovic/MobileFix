@@ -16,7 +16,7 @@ class GetAlbumUseCaseTest {
     private val sut = GetAlbumUseCase(mockAlbumRepository)
 
     @Test
-    fun `return album`() {
+    fun `GetAlbumUseCase when repository is successful returns album`() {
         // given
         val albumName = "Thriller"
         val artistName = "Michael Jackson"
@@ -33,7 +33,7 @@ class GetAlbumUseCaseTest {
     }
 
     @Test
-    fun `return error`() {
+    fun `GetAlbumUseCase when repository fails returns error`() {
         // given
         val albumName = "Thriller"
         val artistName = "Michael Jackson"
