@@ -1,4 +1,4 @@
-rootProject.name = "MobileFix"
+rootProject.name = "MeApp"
 include(":app")
 
 pluginManagement {
@@ -13,6 +13,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -33,6 +34,6 @@ dependencyResolutionManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":feature:base")
 include(":feature:album")
-include(":feature:favourite")
-include(":feature:settings")
 include(":library:testUtils")
+include(":feature:livefeed")
+include(":feature:birthday")

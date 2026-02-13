@@ -1,6 +1,7 @@
 plugins {
     // Convention plugins
-    id("com.simovic.mobilefix.convention.spotless")
+    id("com.simovic.meapp.convention.spotless")
+    id("com.simovic.meapp.convention.detekt")
 
     // Core Android and Kotlin plugins using version catalog
     alias(libs.plugins.android.application) apply false

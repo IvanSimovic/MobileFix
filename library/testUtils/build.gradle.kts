@@ -1,9 +1,9 @@
 plugins {
-    id("com.simovic.mobilefix.convention.library")
+    id("com.simovic.meapp.convention.library")
 }
 
 android {
-    namespace = "com.simovic.mobilefix.library.testutils"
+    namespace = "com.simovic.meapp.library.testutils"
 }
 
 dependencies {

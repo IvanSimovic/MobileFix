@@ -7,4 +7,9 @@
     <string name="album_detail_cover_content_description">Album Cover</string>
     <string name="album_detail_tracks">Tracks</string>
     <string name="album_detail_back">Back</string>
+
+    <string name="remove_from_favorite">Remove from favorite</string>
+    <string name="add_to_favorite">Add to favorite</string>
+    <string name="search">Search</string>
+    <string name="clear_search">Clear search</string>
 </resources>

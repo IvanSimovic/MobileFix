@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name="com.simovic.mobilefix.Application"
+        android:name="com.simovic.meapp.Application"
         android:allowBackup="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,12 +12,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MobileFix">
+        android:theme="@style/Theme.AppTheme">
         <activity
-            android:name="com.simovic.mobilefix.presentation.MainActivity"
+            android:name="com.simovic.meapp.presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MobileFix">
+            android:theme="@style/Theme.AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

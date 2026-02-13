@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.simovic.mobilefix.buildlogic"
+group = "com.simovic.meapp.buildlogic"
 
 /*
 Configure the buildLogic plugins to target JDK from version catalog
@@ -54,53 +54,53 @@ tasks {
 gradlePlugin {
     plugins {
         register("applicationConvention") {
-            id = "com.simovic.mobilefix.convention.application"
-            implementationClass = "com.simovic.mobilefix.buildlogic.ApplicationConventionPlugin"
+            id = "com.simovic.meapp.convention.application"
+            implementationClass = "com.simovic.meapp.buildlogic.ApplicationConventionPlugin"
         }
 
         register("featureConvention") {
-            id = "com.simovic.mobilefix.convention.feature"
-            implementationClass = "com.simovic.mobilefix.buildlogic.FeatureConventionPlugin"
+            id = "com.simovic.meapp.convention.feature"
+            implementationClass = "com.simovic.meapp.buildlogic.FeatureConventionPlugin"
         }
 
         register("libraryConvention") {
-            id = "com.simovic.mobilefix.convention.library"
-            implementationClass = "com.simovic.mobilefix.buildlogic.LibraryConventionPlugin"
+            id = "com.simovic.meapp.convention.library"
+            implementationClass = "com.simovic.meapp.buildlogic.LibraryConventionPlugin"
         }
 
         register("kotlinConvention") {
-            id = "com.simovic.mobilefix.convention.kotlin"
-            implementationClass = "com.simovic.mobilefix.buildlogic.KotlinConventionPlugin"
+            id = "com.simovic.meapp.convention.kotlin"
+            implementationClass = "com.simovic.meapp.buildlogic.KotlinConventionPlugin"
         }
 
         register("testConvention") {
-            id = "com.simovic.mobilefix.convention.test"
-            implementationClass = "com.simovic.mobilefix.buildlogic.TestConventionPlugin"
+            id = "com.simovic.meapp.convention.test"
+            implementationClass = "com.simovic.meapp.buildlogic.TestConventionPlugin"
         }
 
         register("testLibraryConvention") {
-            id = "com.simovic.mobilefix.convention.test.library"
-            implementationClass = "com.simovic.mobilefix.buildlogic.TestConventionLibraryPlugin"
+            id = "com.simovic.meapp.convention.test.library"
+            implementationClass = "com.simovic.meapp.buildlogic.TestConventionLibraryPlugin"
         }
 
         register("spotlessConvention") {
-            id = "com.simovic.mobilefix.convention.spotless"
-            implementationClass = "com.simovic.mobilefix.buildlogic.SpotlessConventionPlugin"
+            id = "com.simovic.meapp.convention.spotless"
+            implementationClass = "com.simovic.meapp.buildlogic.SpotlessConventionPlugin"
         }
 
         register("detektConvention") {
-            id = "com.simovic.mobilefix.convention.detekt"
-            implementationClass = "com.simovic.mobilefix.buildlogic.DetektConventionPlugin"
+            id = "com.simovic.meapp.convention.detekt"
+            implementationClass = "com.simovic.meapp.buildlogic.DetektConventionPlugin"
         }
 
         register("easyLauncherConvention") {
-            id = "com.simovic.mobilefix.convention.easylauncher"
-            implementationClass = "com.simovic.mobilefix.buildlogic.EasyLauncherConventionPlugin"
+            id = "com.simovic.meapp.convention.easylauncher"
+            implementationClass = "com.simovic.meapp.buildlogic.EasyLauncherConventionPlugin"
         }
 
         register("aboutLibrariesConvention") {
-            id = "com.simovic.mobilefix.convention.aboutlibraries"
-            implementationClass = "com.simovic.mobilefix.buildlogic.AboutLibrariesConventionPlugin"
+            id = "com.simovic.meapp.convention.aboutlibraries"
+            implementationClass = "com.simovic.meapp.buildlogic.AboutLibrariesConventionPlugin"
         }
     }
 }
