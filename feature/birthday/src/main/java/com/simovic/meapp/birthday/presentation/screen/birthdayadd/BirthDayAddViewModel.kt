@@ -7,6 +7,8 @@ import com.simovic.meapp.feature.base.presentation.viewmodel.BaseViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
+private const val BIRTHDAY_PLACEHOLDER_YEAR = 2000
+
 internal class BirthDayAddViewModel(
     private val birthDayRepo: BirthDayRepo,
 ) : BaseViewModel<BirthDayAddUiState, BirthDayAddAction>(BirthDayAddUiState.Empty) {
@@ -17,7 +19,7 @@ internal class BirthDayAddViewModel(
     ) {
         viewModelScope.launch {
             if (!name.isEmpty()) {
-                birthDayRepo.add(CreateBirthDay(name, LocalDate.of(2000, month, dayOfMonth)))
+                birthDayRepo.add(CreateBirthDay(name, LocalDate.of(BIRTHDAY_PLACEHOLDER_YEAR, month, dayOfMonth)))
                 sendAction(BirthDayAddAction.Success())
             }
         }

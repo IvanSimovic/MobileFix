@@ -1,8 +1,8 @@
 package com.simovic.meapp.feature.album.presentation.screen.albumlist
 
 import androidx.lifecycle.viewModelScope
-import com.simovic.meapp.feature.base.domain.result.Result
 import com.simovic.meapp.feature.album.domain.usecase.GetAlbumListUseCase
+import com.simovic.meapp.feature.base.domain.result.Result
 import com.simovic.meapp.feature.base.presentation.viewmodel.BaseViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -20,10 +20,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+private const val SEARCH_DEBOUNCE_MS = 500L
+private const val SUBSCRIBED_TIMEOUT_MS = 5000L
+
 internal class AlbumListViewModel(
     private val getAlbumListUseCase: GetAlbumListUseCase,
 ) : BaseViewModel<AlbumListUiState, AlbumListAction>(AlbumListUiState.Loading) {
-
     private val query = MutableStateFlow("")
 
     private val _uiState = MutableStateFlow<AlbumListUiState>(AlbumListUiState.Loading)
@@ -32,7 +34,7 @@ internal class AlbumListViewModel(
     init {
         viewModelScope.launch {
             query
-                .debounce(500)
+                .debounce(SEARCH_DEBOUNCE_MS)
                 .distinctUntilChanged()
                 .filter { it.isBlank() || it.length >= 2 }
                 .flatMapLatest { query ->
@@ -42,8 +44,11 @@ internal class AlbumListViewModel(
                             is Result.Success -> {
                                 val albums = result.value
                                 emit(
-                                    if (albums.isEmpty()) AlbumListUiState.Error
-                                    else AlbumListUiState.Content(albums = albums)
+                                    if (albums.isEmpty()) {
+                                        AlbumListUiState.Error
+                                    } else {
+                                        AlbumListUiState.Content(albums = albums)
+                                    },
                                 )
                             }
                             is Result.Failure -> {
@@ -53,13 +58,11 @@ internal class AlbumListViewModel(
                     }.catch {
                         emit(AlbumListUiState.Error)
                     }
-                }
-                .stateIn(
+                }.stateIn(
                     scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = AlbumListUiState.Loading
-                )
-                .collect { _uiState.value = it }
+                    started = SharingStarted.WhileSubscribed(SUBSCRIBED_TIMEOUT_MS),
+                    initialValue = AlbumListUiState.Loading,
+                ).collect { _uiState.value = it }
         }
     }
 
@@ -70,5 +73,4 @@ internal class AlbumListViewModel(
     fun clearQuery() {
         query.value = ""
     }
-
 }

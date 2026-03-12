@@ -8,4 +8,5 @@
     <string name="birthdays">Birthdays</string>
     <string name="name">Name</string>
     <string name="add">Add</string>
+    <string name="no_birthdays_yet">No birthdays yet</string>
 </resources>

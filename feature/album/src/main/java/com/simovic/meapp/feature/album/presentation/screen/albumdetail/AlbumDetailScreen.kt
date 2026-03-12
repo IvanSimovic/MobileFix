@@ -52,17 +52,18 @@ import org.koin.androidx.compose.koinViewModel
 fun ToolBarFavorite(
     isFavorite: Boolean,
     onFavoriteClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val (icon, descriptionRes) = when (isFavorite) {
-        true -> Icons.Filled.Close to R.string.remove_from_favorite
-        false -> Icons.Filled.Star to R.string.add_to_favorite
-    }
+    val (icon, descriptionRes) =
+        when (isFavorite) {
+            true -> Icons.Filled.Close to R.string.remove_from_favorite
+            false -> Icons.Filled.Star to R.string.add_to_favorite
+        }
 
     IconButton(modifier = modifier, onClick = onFavoriteClick) {
         Icon(
             imageVector = icon,
-            contentDescription = stringResource(descriptionRes)
+            contentDescription = stringResource(descriptionRes),
         )
     }
 }
@@ -99,7 +100,7 @@ fun AlbumDetailScreen(
                 (uiState as? AlbumDetailUiState.Content)?.let { content ->
                     ToolBarFavorite(
                         isFavorite = content.isFavorite,
-                        onFavoriteClick = viewModel::addToFavorites
+                        onFavoriteClick = viewModel::addToFavorites,
                     )
                 }
             },
@@ -166,7 +167,10 @@ private fun AlbumDetailContent(
 }
 
 @Composable
-private fun Tags(tags: List<Tag>?, modifier: Modifier = Modifier) {
+private fun Tags(
+    tags: List<Tag>?,
+    modifier: Modifier = Modifier,
+) {
     FlowRow(
         modifier,
         horizontalArrangement = Arrangement.spacedBy(Dimen.spaceS),

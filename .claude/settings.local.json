@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /Users/ivan/Documents/Android/MeApp && ./gradlew spotlessApply 2>&1)",
+      "Bash(cd /Users/ivan/Documents/Android/MeApp && ./gradlew spotlessApply --no-configuration-cache 2>&1)",
+      "Bash(cd /Users/ivan/Documents/Android/MeApp && ./gradlew detektApply --no-configuration-cache 2>&1)",
+      "Bash(cd /Users/ivan/Documents/Android/MeApp && ./gradlew spotlessApply detektApply --no-configuration-cache 2>&1)"
+    ]
+  }
+}

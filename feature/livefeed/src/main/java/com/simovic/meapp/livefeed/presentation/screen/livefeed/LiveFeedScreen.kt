@@ -24,6 +24,8 @@ import com.simovic.meapp.feature.base.presentation.ui.AppTheme
 import com.simovic.meapp.livefeed.domain.model.FeedItem
 import org.koin.androidx.compose.koinViewModel
 
+private const val DESCRIPTION_PREVIEW_LENGTH = 20
+
 @Composable
 fun LiveFeedScreen(
     onNavigateToDetails: (FeedItem) -> Unit,
@@ -61,7 +63,16 @@ private fun FeedContent(
                 Text(item.pubDate, style = AppTheme.typo.body3, color = AppTheme.color.textMuted)
                 Text(item.title, style = AppTheme.typo.head2, color = AppTheme.color.textMain)
                 Text(
-                    item.description.substring(0, if (item.description.length < 20) item.description.length else 20),
+                    item.description.substring(
+                        0,
+                        if (item.description.length <
+                            DESCRIPTION_PREVIEW_LENGTH
+                        ) {
+                            item.description.length
+                        } else {
+                            DESCRIPTION_PREVIEW_LENGTH
+                        },
+                    ),
                     style = AppTheme.typo.body2,
                     color = AppTheme.color.textMain,
                 )

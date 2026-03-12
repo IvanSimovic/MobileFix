@@ -27,7 +27,7 @@ import com.simovic.meapp.feature.base.common.res.Dimen
 fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue(query)) }
 
@@ -41,30 +41,35 @@ fun SearchBar(
             textFieldValue = newValue
             onQueryChange(newValue.text)
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(Dimen.spaceM),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(Dimen.spaceM),
         placeholder = { Text(stringResource(R.string.album_list_search_placeholder)) },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = stringResource(R.string.search)
+                contentDescription = stringResource(R.string.search),
             )
         },
-        trailingIcon = if (query.isNotEmpty()) {
-            {
-                IconButton(onClick = { onQueryChange("") }) {
-                    Icon(
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = stringResource(R.string.clear_search)
-                    )
+        trailingIcon =
+            if (query.isNotEmpty()) {
+                {
+                    IconButton(onClick = { onQueryChange("") }) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = stringResource(R.string.clear_search),
+                        )
+                    }
                 }
-            }
-        } else null,
+            } else {
+                null
+            },
         singleLine = true,
-        colors = OutlinedTextFieldDefaults.colors(
-            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
-            focusedBorderColor = MaterialTheme.colorScheme.primary
-        )
+        colors =
+            OutlinedTextFieldDefaults.colors(
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+            ),
     )
 }

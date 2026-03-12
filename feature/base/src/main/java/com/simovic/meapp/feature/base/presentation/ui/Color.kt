@@ -47,6 +47,7 @@ val SurfaceHighDark = Color(0xFF2D2F31)
 @Immutable
 data class ExtendedColors(
     val brandPrimary: Color,
+    val onBrandPrimary: Color,
     val brandSecondary: Color,
     val success: Color,
     val warning: Color,
@@ -61,6 +62,7 @@ data class ExtendedColors(
 val LightExtendedColors =
     ExtendedColors(
         brandPrimary = PrimaryLight,
+        onBrandPrimary = OnPrimaryLight,
         brandSecondary = SecondaryLight,
         success = SuccessLight,
         warning = WarningLight,
@@ -75,6 +77,7 @@ val LightExtendedColors =
 val DarkExtendedColors =
     ExtendedColors(
         brandPrimary = PrimaryDark,
+        onBrandPrimary = OnPrimaryDark,
         brandSecondary = BackgroundDark,
         success = SuccessDark,
         warning = WarningDark,

@@ -29,7 +29,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun AlbumListScreen(
     modifier: Modifier = Modifier,
-    onNavigateToAlbumDetail: ((artistName: String, albumName: String, albumMbId: String?) -> Unit)? = null
+    onNavigateToAlbumDetail: ((artistName: String, albumName: String, albumMbId: String?) -> Unit)? = null,
 ) {
     val viewModel: AlbumListViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -39,7 +39,7 @@ fun AlbumListScreen(
             query = "",
             onQueryChange = { newQuery ->
                 viewModel.onQueryChanged(newQuery)
-            }
+            },
         )
 
         Box(modifier = Modifier.fillMaxSize()) {
@@ -57,7 +57,7 @@ fun AlbumListScreen(
                         albums = state.albums,
                         onAlbumClick = { album ->
                             onNavigateToAlbumDetail?.invoke(album.artist, album.name, album.mbId)
-                        }
+                        },
                     )
                 }
             }
@@ -68,26 +68,27 @@ fun AlbumListScreen(
 @Composable
 private fun AlbumGrid(
     albums: List<Album>,
-    onAlbumClick: (Album) -> Unit
+    onAlbumClick: (Album) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(Dimen.imageSize),
-        contentPadding = PaddingValues(Dimen.spaceS)
+        contentPadding = PaddingValues(Dimen.spaceS),
     ) {
         items(
             items = albums,
-            key = { it.id }
+            key = { it.id },
         ) { album ->
             ElevatedCard(
-                modifier = Modifier
-                    .padding(Dimen.spaceS)
-                    .wrapContentSize(),
-                onClick = { onAlbumClick(album) }
+                modifier =
+                    Modifier
+                        .padding(Dimen.spaceS)
+                        .wrapContentSize(),
+                onClick = { onAlbumClick(album) },
             ) {
                 PlaceholderImage(
                     url = album.getDefaultImageUrl(),
                     contentDescription = stringResource(R.string.album_detail_cover_content_description),
-                    modifier = Modifier.size(Dimen.imageSize)
+                    modifier = Modifier.size(Dimen.imageSize),
                 )
             }
         }
