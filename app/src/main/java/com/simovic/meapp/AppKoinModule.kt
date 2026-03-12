@@ -29,14 +29,6 @@ val appModule =
 
         singleOf(::UserAgentInterceptor)
 
-        single {
-            HttpLoggingInterceptor { message ->
-                Timber.d("Http: $message")
-            }.apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
-        }
-
         /*
          * OkHttp logging interceptor with custom Timber logger.
          *

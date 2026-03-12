@@ -70,9 +70,9 @@ internal class AlbumRepositoryImpl(
                 val album =
                     albumDao
                         .getAlbum(artistName, albumName, mbId)
-                        .let { albumMapper.roomToDomain(it) }
+                        ?.let { albumMapper.roomToDomain(it) }
 
-                Result.Success(album)
+                if (album != null) Result.Success(album) else Result.Failure()
             }
         }
 

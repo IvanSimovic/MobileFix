@@ -7,8 +7,6 @@ import com.simovic.meapp.feature.base.presentation.viewmodel.BaseViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
@@ -16,61 +14,49 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 private const val SEARCH_DEBOUNCE_MS = 500L
-private const val SUBSCRIBED_TIMEOUT_MS = 5000L
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 internal class AlbumListViewModel(
     private val getAlbumListUseCase: GetAlbumListUseCase,
 ) : BaseViewModel<AlbumListUiState, AlbumListAction>(AlbumListUiState.Loading) {
-    private val query = MutableStateFlow("")
-
-    private val _uiState = MutableStateFlow<AlbumListUiState>(AlbumListUiState.Loading)
-    val uiState: StateFlow<AlbumListUiState> = _uiState.asStateFlow()
+    private val _query = MutableStateFlow("")
+    val query = _query.asStateFlow()
 
     init {
         viewModelScope.launch {
-            query
+            _query
                 .debounce(SEARCH_DEBOUNCE_MS)
                 .distinctUntilChanged()
                 .filter { it.isBlank() || it.length >= 2 }
                 .flatMapLatest { query ->
                     flow {
-                        emit(AlbumListUiState.Loading)
+                        emit(AlbumListAction.AlbumListLoadStart)
                         when (val result = getAlbumListUseCase(query)) {
                             is Result.Success -> {
                                 val albums = result.value
                                 emit(
                                     if (albums.isEmpty()) {
-                                        AlbumListUiState.Error
+                                        AlbumListAction.AlbumListLoadFailure
                                     } else {
-                                        AlbumListUiState.Content(albums = albums)
+                                        AlbumListAction.AlbumListLoadSuccess(albums)
                                     },
                                 )
                             }
                             is Result.Failure -> {
-                                emit(AlbumListUiState.Error)
+                                emit(AlbumListAction.AlbumListLoadFailure)
                             }
                         }
                     }.catch {
-                        emit(AlbumListUiState.Error)
+                        emit(AlbumListAction.AlbumListLoadFailure)
                     }
-                }.stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(SUBSCRIBED_TIMEOUT_MS),
-                    initialValue = AlbumListUiState.Loading,
-                ).collect { _uiState.value = it }
+                }.collect { sendAction(it) }
         }
     }
 
     fun onQueryChanged(newQuery: String) {
-        query.value = newQuery.trim()
-    }
-
-    fun clearQuery() {
-        query.value = ""
+        _query.value = newQuery.trim()
     }
 }

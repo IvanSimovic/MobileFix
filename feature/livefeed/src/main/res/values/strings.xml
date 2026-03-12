@@ -2,4 +2,5 @@
 <resources>
     <string name="back">Back</string>
     <string name="news_feed">News feed</string>
+    <string name="open_full_article">Open full article</string>
 </resources>

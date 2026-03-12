@@ -56,9 +56,7 @@ internal class AlbumDetailViewModel(
                             sendAction(AlbumDetailAction.ToggleFavoriteStatus(newFavoriteStatus))
                         }
 
-                        is Failure -> {
-                            sendAction(AlbumDetailAction.AlbumLoadFailure)
-                        }
+                        is Failure -> { /* toggle failure is silent — content state preserved */ }
                     }
                 }
             }

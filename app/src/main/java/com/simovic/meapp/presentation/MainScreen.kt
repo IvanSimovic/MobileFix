@@ -40,7 +40,14 @@ fun MainShowcaseScreen(
     val actions = remember(navController) { MainActions(navController) }
 
     if (BuildConfig.DEBUG) {
-        addOnDestinationChangedListener(navController)
+        DisposableEffect(navController) {
+            val listener =
+                NavController.OnDestinationChangedListener { _, destination, arguments ->
+                    NavigationDestinationLogger.logDestinationChange(destination, arguments)
+                }
+            navController.addOnDestinationChangedListener(listener)
+            onDispose { navController.removeOnDestinationChangedListener(listener) }
+        }
     }
 
     val fabConfig by scaffoldController.fabConfig.collectAsStateWithLifecycle()
@@ -89,7 +96,7 @@ private fun MainNavHost(
             AlbumDetailScreen(
                 albumName = detail.albumName,
                 artistName = detail.artistName,
-                albumMbId = detail.albumMbId ?: "",
+                albumMbId = detail.albumMbId,
                 onBackClick = { actions.navigateUp() },
             )
         }
@@ -123,12 +130,6 @@ private fun MainNavHost(
                 onFinish = { actions.navigateUp() },
             )
         }
-    }
-}
-
-private fun addOnDestinationChangedListener(navController: NavController) {
-    navController.addOnDestinationChangedListener { _, destination, arguments ->
-        NavigationDestinationLogger.logDestinationChange(destination, arguments)
     }
 }
 

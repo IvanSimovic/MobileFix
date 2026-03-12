@@ -34,7 +34,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.simovic.meapp.feature.album.R
 import com.simovic.meapp.feature.album.domain.model.Tag
@@ -139,7 +138,7 @@ private fun AlbumDetailContent(
                 Modifier
                     .padding(Dimen.spaceM)
                     .wrapContentSize()
-                    .size(320.dp)
+                    .size(Dimen.albumCoverSize)
                     .align(CenterHorizontally),
         ) {
             PlaceholderImage(

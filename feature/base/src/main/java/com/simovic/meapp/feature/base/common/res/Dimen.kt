@@ -12,4 +12,5 @@ object Dimen {
     val avatarSize = 40.dp
     val dividerThickness = 1.dp
     val imageSize = 100.dp
+    val albumCoverSize = 320.dp
 }

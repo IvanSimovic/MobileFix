@@ -18,7 +18,7 @@ internal interface AlbumDao {
         artistName: String,
         albumName: String,
         mbId: String?,
-    ): AlbumRoomModel
+    ): AlbumRoomModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlbums(albums: List<AlbumRoomModel>)
